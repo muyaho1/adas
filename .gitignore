@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+
+.cache/
+.tmp/
+.pytest_runs/
+.pytest_tmp/
+pytest-cache-files-*/
+torchinductor_*/
+SB3-*/
+
+.claude/
+.omc/
+
+results/

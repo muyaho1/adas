@@ -1,0 +1,120 @@
+scenarios:
+  - name: recess_to_math
+    type: preferred_to_nonpreferred
+    description: >
+      The teacher announces that recess is ending and it's time to go inside
+      for math class. The child is actively playing with friends.
+    initial_state:
+      distress_level: 0.3
+      compliance: 0.15
+      attention: 0.2
+      escalation_risk: 0.3
+    evidence:
+      - citation: "Staff et al., 2023, J Atten Disord, PMCID: PMC10291114"
+        rationale: "Classroom transitions increase motor/verbal hyperactivity and ADHD children are more off-task overall."
+      - citation: "Gaastra et al., 2016, PLOS ONE, DOI: 10.1371/journal.pone.0148841"
+        rationale: "Antecedent and consequence-based classroom interventions can reduce off-task and disruptive behavior."
+    behavioral_rationale: >
+      Moving from a preferred social play activity to a less preferred academic
+      task should start with low compliance and low attention to teacher cues,
+      with a moderate risk of escalation if the demand is abrupt.
+    state_priors:
+      distress_level: 0.32
+      compliance: 0.18
+      attention: 0.20
+      escalation_risk: 0.30
+    expected_transition_sensitivity:
+      distress_level: 0.18
+      compliance: -0.12
+      attention: -0.12
+      escalation_risk: 0.16
+
+  - name: art_time_ending
+    type: timed_activity_ending
+    description: >
+      Art class is ending in 5 minutes. The child is deeply engaged in
+      painting a picture they are proud of.
+    initial_state:
+      distress_level: 0.2
+      compliance: 0.3
+      attention: 0.15
+      escalation_risk: 0.2
+    evidence:
+      - citation: "DuPaul et al., 2022, Child Adolesc Psychiatr Clin N Am, DOI: 10.1016/j.chc.2021.08.003"
+        rationale: "Structured teacher supports and self-regulation strategies are recommended in school interventions."
+      - citation: "Christ et al., 2014, Sch Psychol Q, PMID: 23895317"
+        rationale: "Repeated behavior trajectories are useful when visualizing intervention response over time."
+    behavioral_rationale: >
+      Ending a highly engaging activity should reduce attention to the teacher's
+      new instruction, but a countdown or choice can often prevent large distress
+      spikes.
+    state_priors:
+      distress_level: 0.22
+      compliance: 0.30
+      attention: 0.18
+      escalation_risk: 0.18
+    expected_transition_sensitivity:
+      distress_level: 0.12
+      compliance: -0.08
+      attention: -0.14
+      escalation_risk: 0.10
+
+  - name: surprise_assembly
+    type: unexpected_schedule_change
+    description: >
+      The normal schedule is disrupted by a surprise school assembly.
+      The child was expecting to go to their favorite class next.
+    initial_state:
+      distress_level: 0.45
+      compliance: 0.1
+      attention: 0.3
+      escalation_risk: 0.4
+    evidence:
+      - citation: "Staff et al., 2021, J Clin Child Adolesc Psychol, PMCID: PMC8802898"
+        rationale: "Antecedent clarity and consequence-based support can reduce classroom behavior problems."
+      - citation: "Yegencik et al., 2025, Front Psychol, PMID: 40761448"
+        rationale: "School interventions improve inattention and externalising outcomes, but impulsivity effects can be smaller."
+    behavioral_rationale: >
+      Unexpected schedule disruption should produce the highest starting distress
+      and escalation risk among the four seed scenarios, while clear explanation
+      and collaborative planning may help recovery.
+    state_priors:
+      distress_level: 0.46
+      compliance: 0.12
+      attention: 0.26
+      escalation_risk: 0.42
+    expected_transition_sensitivity:
+      distress_level: 0.24
+      compliance: -0.14
+      attention: -0.10
+      escalation_risk: 0.20
+
+  - name: reading_to_cleanup
+    type: hyperfocus_interruption
+    description: >
+      The child is deeply absorbed in a book during free reading time.
+      The teacher asks everyone to stop and clean up their area.
+    initial_state:
+      distress_level: 0.25
+      compliance: 0.1
+      attention: 0.1
+      escalation_risk: 0.25
+    evidence:
+      - citation: "Staff et al., 2023, J Atten Disord, PMCID: PMC10291114"
+        rationale: "Transitions create self-regulation and motivation demands and can raise hyperactivity."
+      - citation: "Matta et al., 2020, J Sch Psychol, PMID: 32711722"
+        rationale: "Repeated ratings can show gradual intervention-linked engagement gains over time."
+    behavioral_rationale: >
+      Interrupting hyperfocus should start with very low attention to cleanup
+      instructions and low compliance, but empathic acknowledgement or sensory
+      support may reduce distress before direct compliance improves.
+    state_priors:
+      distress_level: 0.28
+      compliance: 0.14
+      attention: 0.12
+      escalation_risk: 0.24
+    expected_transition_sensitivity:
+      distress_level: 0.20
+      compliance: -0.10
+      attention: -0.16
+      escalation_risk: 0.14

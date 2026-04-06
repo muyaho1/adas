@@ -1,0 +1,53 @@
+﻿environment:
+  max_turns: 10
+  success_threshold: 0.8
+  failure_distress: 0.9
+  failure_consecutive: 3
+  use_constrained_transitions: true
+  use_memory_adjusted_reset: true
+  scenario_types:
+    - preferred_to_nonpreferred
+    - timed_activity_ending
+    - unexpected_schedule_change
+    - hyperfocus_interruption
+
+agent:
+  algorithm: PPO
+  policy: MlpPolicy
+  hidden_sizes: [64, 64]
+  learning_rate: 0.0003
+  n_steps: 128
+  batch_size: 64
+  n_epochs: 10
+  gamma: 0.99
+  total_timesteps: 50000
+
+reward:
+  w_compliance: 0.3
+  w_attention: 0.15
+  w_distress: 0.25
+  w_efficiency: 0.1
+  safety_threshold: 0.8
+  safety_penalty: -1.0
+  bonus_success: 5.0
+  bonus_fast: 2.0
+  bonus_gentle: 2.0
+  bonus_monotonic: 1.0
+  penalty_failure: -5.0
+  gentle_threshold: 0.6
+  fast_threshold: 5
+
+llm:
+  backend: codex_cli
+  model: gpt-5.4
+  command: codex
+  timeout: 180
+  cache_enabled: true
+  cache_dir: .cache/responses
+  retry_attempts: 3
+  retry_delay: 2.0
+
+evaluation:
+  n_eval_episodes: 100
+  seed: 42
+

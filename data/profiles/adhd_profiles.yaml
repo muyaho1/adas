@@ -1,0 +1,92 @@
+profiles:
+  - name: mild_inattentive
+    age: 8
+    severity: mild
+    traits:
+      impulsivity: 0.3
+      inattention: 0.6
+      emotional_reactivity: 0.25
+    description: >
+      An 8-year-old with mild ADHD, predominantly inattentive presentation.
+      Tends to daydream during transitions but rarely escalates.
+    evidence:
+      - citation: "Staff et al., 2023, J Atten Disord, PMCID: PMC10291114"
+        rationale: "ADHD children show elevated off-task behavior across classroom settings."
+      - citation: "Yegencik et al., 2025, Front Psychol, PMID: 40761448"
+        rationale: "School interventions tend to improve inattention more reliably than impulsivity."
+    behavioral_rationale: >
+      This profile starts with prominent inattention and relatively low emotional
+      reactivity, so transitions should reduce attention before they strongly
+      increase distress.
+    state_priors:
+      distress_level: 0.18
+      compliance: 0.35
+      attention: 0.28
+      escalation_risk: 0.14
+    expected_transition_sensitivity:
+      distress_level: 0.10
+      compliance: -0.04
+      attention: -0.12
+      escalation_risk: 0.06
+
+  - name: moderate_combined
+    age: 9
+    severity: moderate
+    traits:
+      impulsivity: 0.6
+      inattention: 0.55
+      emotional_reactivity: 0.5
+    description: >
+      A 9-year-old with moderate ADHD, combined type.
+      Shows both inattention and impulsivity. May resist transitions
+      with verbal protests but can be redirected.
+    evidence:
+      - citation: "DuPaul et al., 2022, Child Adolesc Psychiatr Clin N Am, DOI: 10.1016/j.chc.2021.08.003"
+        rationale: "Behavioral classroom strategies and self-regulation supports have strong school-based evidence."
+      - citation: "Staff et al., 2021, J Clin Child Adolesc Psychol, PMCID: PMC8802898"
+        rationale: "Antecedent and consequence-based teacher techniques are both relevant in classroom interventions."
+    behavioral_rationale: >
+      This profile has balanced inattention and impulsivity, so effective teacher
+      structure can improve compliance, but abrupt demands can still elevate
+      distress and escalation risk.
+    state_priors:
+      distress_level: 0.28
+      compliance: 0.24
+      attention: 0.24
+      escalation_risk: 0.26
+    expected_transition_sensitivity:
+      distress_level: 0.16
+      compliance: -0.08
+      attention: -0.10
+      escalation_risk: 0.14
+
+  - name: severe_hyperactive
+    age: 11
+    severity: severe
+    traits:
+      impulsivity: 0.85
+      inattention: 0.7
+      emotional_reactivity: 0.8
+    description: >
+      An 11-year-old with severe ADHD, predominantly hyperactive-impulsive.
+      Transitions frequently trigger emotional outbursts, physical restlessness,
+      and strong resistance. Requires careful, patient intervention.
+    evidence:
+      - citation: "Staff et al., 2023, J Atten Disord, PMCID: PMC10291114"
+        rationale: "Transitions increase motor and verbal hyperactivity, making this profile more vulnerable during switching moments."
+      - citation: "Staff et al., 2020, J Atten Disord, PMCID: PMC8369909"
+        rationale: "Teacher ratings and direct observation should both be considered, especially for inattention."
+    behavioral_rationale: >
+      This profile should react strongly to abrupt transitions and firm demands.
+      Distress and escalation risk should start higher and improve more slowly
+      than in mild profiles.
+    state_priors:
+      distress_level: 0.44
+      compliance: 0.14
+      attention: 0.20
+      escalation_risk: 0.40
+    expected_transition_sensitivity:
+      distress_level: 0.26
+      compliance: -0.14
+      attention: -0.14
+      escalation_risk: 0.24
