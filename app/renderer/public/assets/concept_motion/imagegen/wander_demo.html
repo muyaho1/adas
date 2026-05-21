@@ -193,15 +193,18 @@
       raise: [0, 5, 5, 0],
     };
     const ACTIONS = ["talk", "fidget", "raise"];
+    // East and west use the SAME source frame (the left-facing one);
+    // east is rendered with a horizontal flip in drawAgent.
+    // This avoids the inconsistent direction inside artist-drawn east frames.
     const DIRECTION_FRAME = {
       south: 0,
-      west: 1,
+      west: 2,
       east: 2,
       north: 3,
     };
     const DIRECTION_WALK_FRAME = {
       south: 0,
-      west: 2,
+      west: 4,
       east: 4,
       north: 6,
     };
@@ -299,7 +302,7 @@
 
     function randomPoint(areaKey, agent = null) {
       if (areaKey === "classroom") {
-        if (Math.random() < 0.68) {
+        if (Math.random() < 0.45) {
           const seatIndex = chooseSeatIndex(agent);
           return { ...getSeatStandPoint(seatIndex), seat: true, seatIndex };
         }
@@ -308,8 +311,19 @@
           [70, 382], [190, 382], [310, 382], [520, 382], [610, 382],
           [40, 250], [640, 250],
         ];
-        const [x, y] = standingSpots[Math.floor(Math.random() * standingSpots.length)];
-        return { x: x + (Math.random() - 0.5) * 18, y: y + (Math.random() - 0.5) * 10 };
+        // Try up to 6 candidates: walkable + not too close to other agents.
+        let last = null;
+        for (let i = 0; i < 6; i += 1) {
+          const [bx, by] = standingSpots[Math.floor(Math.random() * standingSpots.length)];
+          const cand = { x: bx + (Math.random() - 0.5) * 60, y: by + (Math.random() - 0.5) * 24 };
+          last = cand;
+          if (!canAgentStandAt(cand.x, cand.y)) continue;
+          const tooClose = state.agents.some((a) =>
+            a.active && a !== agent && Math.hypot(a.x - cand.x, a.y - cand.y) < 32
+          );
+          if (!tooClose) return cand;
+        }
+        return last;
       }
       if (areaKey === "hallway") {
         return {
@@ -333,9 +347,10 @@
     }
 
     function chooseArea(agent) {
-      if (agent.role === "teacher") return Math.random() < 0.78 ? "classroom" : "hallway";
-      if (Math.random() < 0.68) return "classroom";
-      if (Math.random() < 0.9) return "hallway";
+      if (agent.role === "teacher") return Math.random() < 0.65 ? "classroom" : "hallway";
+      const r = Math.random();
+      if (r < 0.45) return "classroom";
+      if (r < 0.88) return "hallway";
       return "entrance";
     }
 
@@ -513,7 +528,7 @@
       }
 
       if (agent.seated && state.elapsed > agent.pauseUntil && state.elapsed > agent.actionUntil) {
-        setNewTarget(agent, Math.random() < 0.7 ? "classroom" : "hallway");
+        setNewTarget(agent, Math.random() < 0.45 ? "classroom" : "hallway");
       }
 
       const paused = state.elapsed < agent.pauseUntil;
@@ -558,7 +573,7 @@
               agent.pauseUntil = state.elapsed + 1.2 + Math.random() * 3.0;
               if (Math.random() < 0.3) triggerAction(agent);
               else agent.nextActionAt = Math.min(agent.nextActionAt, state.elapsed + 2 + Math.random() * 3);
-            } else if (Math.random() < 0.38) triggerAction(agent);
+            } else if (Math.random() < 0.18) triggerAction(agent);
             else setNewTarget(agent);
           }
         }
@@ -566,7 +581,7 @@
 
       if (state.elapsed > agent.nextActionAt) {
         triggerAction(agent);
-        agent.nextActionAt = state.elapsed + 4 + Math.random() * 7;
+        agent.nextActionAt = state.elapsed + 8 + Math.random() * 10;
       }
 
     }
@@ -1169,8 +1184,11 @@
       const drawSize = baseSize * scale * motionScale;
       const yOffset = useDeskSeatedPose ? -drawSize + 8 : useSeated ? -drawSize + 11 : -drawSize + 14;
 
+      const flipForEast = (useDirectionalWalk || useDirectionalIdle) && direction === "east";
+
       ctx.save();
       ctx.translate(Math.round(agent.x + jitter), Math.round(agent.y + bob));
+      if (flipForEast) ctx.scale(-1, 1);
       if (useSeated) {
         ctx.drawImage(
           spriteImage,
